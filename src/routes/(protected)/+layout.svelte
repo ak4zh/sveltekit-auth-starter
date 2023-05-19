@@ -10,7 +10,6 @@
 					<Logo size="42" />
 				</div>
 			</div>
-
 			<slot />
 		</div>
 	</div>

@@ -5,6 +5,7 @@
 	import { ConicGradient } from '@skeletonlabs/skeleton';
 	import type { ConicStop } from '@skeletonlabs/skeleton';
 	import { i } from "@inlang/sdk-js";
+	import { loading } from '$lib/stores';
 	export let data;
 
 	const signUpSchema = userSchema.pick({
@@ -26,7 +27,7 @@
 	];
 
 	let termsAccept = false;
-	// $: termsValue = $form.terms as Writable<boolean>;
+	$: loading.set($delayed)
 </script>
 
 <form method="POST" action="/auth/sign-up" use:enhance>
@@ -122,8 +123,8 @@
 		</label>
 	</div>
 	<div class="mt-6">
-		<button type="submit" disabled={!termsAccept} class="btn variant-filled-primary w-full"
-			>{#if $delayed}<ConicGradient stops={conicStops} spin width="w-6" />{:else}{i("signup")}{/if}</button
-		>
+		<button type="submit" disabled={!termsAccept || $delayed} class="btn variant-filled-primary w-full">
+			{#if $delayed}<ConicGradient stops={conicStops} spin width="w-6" />{:else}{i("signup")}{/if}
+		</button>
 	</div>
 </form>

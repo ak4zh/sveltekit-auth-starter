@@ -12,6 +12,7 @@
 		Avatar,
 		Drawer,
 		Modal,
+		ProgressRadial,
 		Toast,
 		drawerStore
 	} from '@skeletonlabs/skeleton';
@@ -21,6 +22,10 @@
 	import { Menu } from 'lucide-svelte';
 	import convertNameToInitials from '$lib/_helpers/convertNameToInitials';
 	import BottomBar from '$lib/components/BottomBar.svelte';
+	import { onMount } from 'svelte';
+	import { navigating } from '$app/stores';
+	import { loading } from '$lib/stores';
+
 	export let data;
 </script>
 
@@ -51,6 +56,14 @@
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation {navItems} />
 	</svelte:fragment>
+	<!-- Loading Spinner -->
+	{#if $navigating || $loading}
+		<div
+			class="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-gray-500 opacity-75"
+		>
+			<ProgressRadial stroke={100} />
+		</div>
+	{/if}
 	<!-- Main Content -->
 	<div class="container lg:p-10 mx-auto">
 		<slot />

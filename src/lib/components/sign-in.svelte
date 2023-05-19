@@ -6,6 +6,7 @@
 	import { userSchema } from '$lib/config/zod-schemas';
 	import { AlertTriangle } from 'lucide-svelte';
 	import { i } from "@inlang/sdk-js";
+	import { loading } from '$lib/stores';
 	export let data;
 	const signInSchema = userSchema.pick({ email: true, password: true });
 	const { form, errors, enhance, delayed } = superForm(data.form, {
@@ -17,6 +18,8 @@
 		{ color: 'transparent', start: 0, end: 25 },
 		{ color: 'rgb(var(--color-primary-900))', start: 75, end: 100 }
 	];
+
+	$: loading.set($delayed)
 </script>
 
 <form method="POST" action="/auth/sign-in" use:enhance>
@@ -72,9 +75,9 @@
 	</div>
 
 	<div class="mt-6">
-		<button type="submit" class="btn variant-filled-primary w-full"
-			>{#if $delayed}<ConicGradient stops={conicStops} spin width="w-6" />{:else}{i("signin")}{/if}</button
-		>
+		<button type="submit" class="btn variant-filled-primary w-full" disabled={$delayed}>
+			{#if $delayed}<ConicGradient stops={conicStops} spin width="w-6" />{:else}{i("signin")}{/if}
+		</button>
 	</div>
 	<div class="flex flex-row justify-center items-center mt-10">
 		<a href="/auth/password/reset" class="font-semibold">{i("forgotPassword")}</a>
