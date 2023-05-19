@@ -12,6 +12,7 @@
 		Avatar,
 		Drawer,
 		Modal,
+		ProgressRadial,
 		Toast,
 		dataTableHandler,
 		drawerStore
@@ -22,6 +23,8 @@
 	import { Menu } from 'lucide-svelte';
 	import convertNameToInitials from '$lib/_helpers/convertNameToInitials';
 	import { onMount } from 'svelte';
+	import { navigating } from '$app/stores';
+	import { loading } from '$lib/stores';
 	export let data;
 
 	function drawerOpen(): void {
@@ -63,6 +66,14 @@
 	<svelte:fragment slot="sidebarLeft">
 		<Navigation user={data.user} />
 	</svelte:fragment>
+	<!-- Loading Spinner -->
+	{#if $navigating || $loading}
+		<div
+			class="fixed bottom-0 left-0 right-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center overflow-hidden bg-gray-500 opacity-75"
+		>
+			<ProgressRadial stroke={100} />
+		</div>
+	{/if}
 	<!-- Main Content -->
 	<div class="container lg:p-10 mx-auto">
 		<slot />

@@ -6,6 +6,7 @@
 	import { userSchema } from '$lib/config/zod-schemas';
 	import { AlertTriangle } from 'lucide-svelte';
 	import { i } from '@inlang/sdk-js';
+	import { loading } from '$lib/stores.js';
 	export let data;
 	const resetPasswordSchema = userSchema.pick({ email: true });
 	const { form, errors, enhance, delayed } = superForm(data.form, {
@@ -17,6 +18,8 @@
 		{ color: 'transparent', start: 0, end: 25 },
 		{ color: 'rgb(var(--color-primary-900))', start: 75, end: 100 }
 	];
+
+	$: loading.set($delayed)
 </script>
 
 <h3>Reset Your Password</h3>
@@ -57,12 +60,12 @@
 	</div>
 
 	<div class="mt-6">
-		<button type="submit" class="btn variant-filled-primary w-full"
-			>{#if $delayed}
+		<button type="submit" class="btn variant-filled-primary w-full" disabled={$delayed}>
+			{#if $delayed}
 				<ConicGradient stops={conicStops} spin width="w-6" />
 			{:else}
 				{i('auth.password.reset.sendResetEmail')}
-			{/if}</button
-		>
+			{/if}
+		</button>
 	</div>
 </form>

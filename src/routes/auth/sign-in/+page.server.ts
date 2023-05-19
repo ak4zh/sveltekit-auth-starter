@@ -20,13 +20,7 @@ export const load = async (event) => {
 export const actions = {
 	default: async (event) => {
 		const form = await superValidate(event, signInSchema);
-		//console.log(form);
-
-		if (!form.valid) {
-			return fail(400, {
-				form
-			});
-		}
+		if (!form.valid) return fail(400, { form });
 
 		//add user to db
 		try {
